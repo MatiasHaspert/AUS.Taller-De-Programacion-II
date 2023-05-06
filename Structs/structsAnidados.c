@@ -15,7 +15,7 @@ struct cliente
     char dni[12];
     char nombre[20];
     struct domicilio dom;
-
+    
 };
 
 
