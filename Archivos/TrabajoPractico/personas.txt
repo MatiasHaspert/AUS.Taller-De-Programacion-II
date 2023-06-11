@@ -1,0 +1,12 @@
+Nombre-Apellido-Edad-Sexo-Meses inscripto-plan
+Matias-Haspert-20-Masculino-13-E
+Juan-Haspert-50-Masculino-30-C
+Laura-Vinolo-48-Femenino-26-B
+Nicolas-Haspert-17-Masculino-9-D
+Serena-Williams-38-Femenino-28-C
+Lionel-Messi-36-Masculino-27-A
+Emiliano-Martinez-26-Masculino-20-A
+Alejandra-Zorzi-54-Femenino-40-C
+Felipe-Haspert-75-Masculino-60-A
+Concilia-Haspert-84-Femenino-75-B
+Ana-Lafata-64-Femenino-55-B

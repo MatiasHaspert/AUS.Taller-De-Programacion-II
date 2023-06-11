@@ -22,9 +22,9 @@ int main()
 
     strcpy(pdir->nombre,"Matias");
 
-    printf("Nombre: %s \n
-            Direccion: %s \n
-            Numero: %d \n",pdir->nombre,pdir->calle,pdir->numero);
-            
+    printf("Nombre: %s \nDireccion: %s \nNumero: %d \n",pdir->nombre,pdir->calle,pdir->numero);
+
+    free(pdir);
+
     return EXIT_SUCCESS;
 }
