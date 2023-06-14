@@ -133,7 +133,7 @@ void insertar (Nodo **cabeza, Nodo *anterior, item valor)
     }
     else
     {
-        Nodo *nuevo = CrearNodo(valor);
+        Nodo *nuevo = CrearNodo(valor); 
         nuevo->siguiente = anterior->siguiente;
         anterior->siguiente = nuevo;
     }

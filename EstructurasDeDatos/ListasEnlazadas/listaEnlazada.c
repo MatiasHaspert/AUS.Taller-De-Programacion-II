@@ -17,8 +17,8 @@ int main()
     {
         printf("Ingrese el nro %d#: ",i+1);
         scanf("%d",&x.nro);
-        //inserInic(&cabeza,x);
-        inserFinal(&cabeza,x);
+        inserInic(&cabeza,x);
+        //inserFinal(&cabeza,x);
     }
 
     imprimirLista(cabeza);
