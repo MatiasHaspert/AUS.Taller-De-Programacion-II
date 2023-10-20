@@ -21,7 +21,7 @@ int main()
 {
     tipoCiudad ciudades[3] ={2.1, 3.4, "San Jorge",
                                     1.2,5.3, "Sastre",
-                                    4.2, 1.5, "El Trebol"};
+                                    1.2, 3, "El Trebol"};
 
     char nombreCiudadReferencia[20];
 
@@ -33,7 +33,7 @@ int main()
     printf("Ciudades ordenadas:");
     for (int i = 0; i < 3; i++)
     {
-        printf("Ciudad: %s, Abscisa: %lf, Ordenada: %lf.\n",ciudades[i].nombre,ciudades[i].situacion.abscisa,ciudades[i].situacion.ordenada);
+        printf("Ciudad: %s, Abscisa: %.2f, Ordenada: %.2f\n",ciudades[i].nombre,ciudades[i].situacion.abscisa,ciudades[i].situacion.ordenada);
     }
     
 
@@ -48,7 +48,7 @@ void Reordenar(tipoCiudad ciudades[], int num_ciudades, char nombre_ciudad_refer
     tipoCiudad aux;
     for (i = 0; i < num_ciudades; i++)
     {
-        if (ciudades[i].nombre == nombre_ciudad_referencia)
+        if (strcmp(ciudades[i].nombre, nombre_ciudad_referencia) == 0)
         {
             aux = ciudades[0];
             ciudades[0] = ciudades[i];

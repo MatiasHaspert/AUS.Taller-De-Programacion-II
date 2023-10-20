@@ -1,87 +1,70 @@
-/*
-Programa que realiza la suma de dos matrices de N x N.
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 
+#define N 4
+
+void carga (int [][N]);
+void imprime (int [][N]);
+
 int main()
 {
-    int tamaño = 0;
-    int matriz1[tamaño][tamaño];
-    int matriz2[tamaño][tamaño];
-    int i,j;
+    int matriz1[N][N];
+    int matriz2[N][N];
+    int matrizS[N][N];
 
-    printf("Teclea el tamaño de la matriz: ");
-    scanf("%d",&tamaño);
+    printf("\nMatriz 1:\n");
+    carga(matriz1);
 
-    printf("Ingresa valores a la matriz 1:\n");
+    printf("\nMatriz 2:\n");
+    carga(matriz2);
 
-    for(i = 0; i < tamaño; i++)
+    printf("\nMatriz suma:\n");
+    for(int i = 0; i < N; i++)
     {
-        for (j = 0; j < tamaño; j++)
+        for (int j = 0; j < N; j++)
         {
-            printf("Fila %d - Columna %d: ",i,j);
-            scanf("%d",&matriz1[i][j]);
+            matrizS[i][j] = matriz1[i][j] + matriz2[i][j];
         }
-        
-    }
-    
-    printf("Ingresa valores a la matriz 2:\n");
-
-    for(i = 0; i < tamaño; i++)
-    {
-        for (j = 0; j < tamaño; j++)
-        {
-            printf("Fila %d - Columna %d: ",i,j);
-            scanf("%d",&matriz2[i][j]);
-        }
-        
     }
 
     printf("\nMatriz 1:\n");
-
-    for ( i = 0; i < tamaño; i++)
-    {
-        for ( j = 0; j < tamaño; j++)
-        {
-            printf("%d ",matriz1[i][j]);
-        }
-
-        printf("\n");
-        
-    }
-
+    imprime(matriz1);
     printf("\nMatriz 2:\n");
-
-    for ( i = 0; i < tamaño; i++)
-    {
-        for ( j = 0; j < tamaño; j++)
-        {
-            printf("%d ",matriz2[i][j]);
-        }
-        
-        printf("\n");
-    }
-
-
-    printf("\nSuma:\n");
+    imprime(matriz2);
+    printf("\nMatriz suma:\n");
+    imprime(matrizS);
     
-    for ( i = 0; i < tamaño; i++)
-    {
-        for ( j = 0; j < tamaño; j++)
-        {
-            printf("%d ",matriz1[i][j] + matriz2[i][j]);
-        }
-        
-        printf("\n");
-    }
-
 
     return EXIT_SUCCESS;
 }
 
+void carga (int m[][N])
+{
+    int i,j;
 
-    
+    printf("\nIngrese valores a la matriz:\n");
 
+    for ( i = 0; i < N; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            printf("\nPosicion [%d][%d]: ",i,j);
+            scanf("%d",&m[i][j]);
+        }
+    } 
+}
+
+void imprime (int m[][N])
+{
+    int i,j;
+
+    for ( i = 0; i < N; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            printf("%d ",m[i][j]);
+        }
+        printf("\n");
+    } 
+}
 

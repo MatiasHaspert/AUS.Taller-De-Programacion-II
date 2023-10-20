@@ -30,9 +30,29 @@ void destruyeImagenRGB( ImagenRGB *);
 void destruyeImagenGris(ImagenGris *);
 Gris RGBtoGris(RGB *);
 ImagenGris * transforma( ImagenRGB *);
+
 int main()
 {
-    
+    int ancho = 100; // Ancho de la imagen
+    int alto = 100;  // Alto de la imagen
+
+    // Crear una imagen RGB
+    ImagenRGB *imagenRGB = creaImagenRGB(ancho, alto);
+
+    // Asignar valores a los píxeles RGB (ejemplo)
+    RGB pixelRojo = {255, 0, 0};
+    setPixelRGB(imagenRGB, 0, 0, &pixelRojo);
+
+    // Transformar la imagen RGB en una imagen de escala de grises
+    ImagenGris *imagenGris = transforma(imagenRGB);
+
+    // Acceder y mostrar un píxel de la imagen de escala de grises (ejemplo)
+    Gris *pixel = getPixelGris(imagenGris, 0, 0);
+    printf("Valor de escala de grises en (0, 0): %d\n", *pixel);
+
+    // Liberar memoria de las imágenes
+    destruyeImagenRGB(imagenRGB);
+    destruyeImagenGris(imagenGris);
 
 
     return EXIT_SUCCESS;

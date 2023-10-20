@@ -2,90 +2,114 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct tiempo
+#define N 3
+typedef struct
 {
     int anio, mes, dia, hora, minuto, segundo;
-}tiempo;
+}Tiempo;
 
-typedef struct {
+typedef struct
+{
     char *nombre;
-    tiempo ultima_mod;
+    Tiempo ultima_mod;
+}Archivo;
 
-} archivo;
+void ingresa_tiempo (Tiempo *);
+int compara_tiempos (Tiempo *, Tiempo *);
+void imprime_tiempo (Tiempo );
+void ordena_alfa( Archivo *, int );
+void ordena_temporal(Archivo *, int );
 
-int compara_tiempos (tiempo *,tiempo *);
-void imprime_tiempo (tiempo );
-void lee_tiempos(tiempo * );
-void ordena_alfa( archivo *, int );
-void ordena_temporal(archivo *, int);
- 
 int main()
 {
-    tiempo t1,t2;
-    tiempo *pt1, *pt2;
-    pt1 = &t1;
-    pt2 = &t2;
-
-    archivo lista[3];
-
-    archivo *p_lista = lista;
-
-    for (int i = 0; i < 2; i++)
-    {
-        char *nombre = malloc (sizeof(char) * 10);
-        printf("Ingrese el nombre del archivo %d: ",i+1);
-        fgets(nombre,10,stdin);
-
-        lista[i].nombre = nombre;
-        
-    }
+    Tiempo t1, t2;
+    Archivo lista[N];
     
-    printf("Tiempo 1: \n");
-    lee_tiempos(pt1);
-    imprime_tiempo(t1);
+    printf("\nTiempo #1:\n");
+    ingresa_tiempo(&t1);
+    printf("\nTiempo #2:\n");
+    ingresa_tiempo(&t2);
 
-    printf("Tiempo 2: \n");
-    lee_tiempos(pt2);
+    printf("\nTiempo #1:\n");
+    imprime_tiempo(t1);
+    printf("\nTiempo #2:\n");
     imprime_tiempo(t2);
 
-    int compara = compara_tiempos(pt1,pt2);
-
-    if(compara == 1)
+    int compara = compara_tiempos(&t1,&t2);
+    if(compara == 1) 
     {
-        printf("El tiempo 1 es anterior a tiempo 2.\n");
+        printf("\nEl tiempo #1 es anterior al #2.\n");
     }
-    else if (compara == -1)
+    else if(compara == -1) 
     {
-        printf("El tiempo 1 es posterior a tiempo 2.\n");
+        printf("El tiempo #1 es posterior al #2.\n");
     }
     else
     {
-        printf("Los tiempos son iguales.\n");
+        printf("\nLos tiempos son iguales.\n");
     }
-
-    ordena_alfa(p_lista,2);
-    printf("Lista de archivos ordenados alfabeticamente:\n");
-    for (int i = 0; i < 2; i++)
+    
+    Tiempo *aux = malloc(sizeof(Tiempo));
+    for (int i = 0; i < N; i++)
     {
-        printf("%s \n",lista[i].nombre);
+        char *nombre = malloc(sizeof(char) * 20);
+        printf("\nIngresa el nombre del archivo #%d: ",i+1);
+        fflush(stdin);
+        fgets(nombre,20,stdin);
+        fflush(stdin);
+        lista[i].nombre = nombre;
+        printf("\nUltima modificacion:\n");
+        fflush(stdin);
+        ingresa_tiempo(aux);
+        fflush(stdin);
+        lista[i].ultima_mod = *aux;
+    }
+    ordena_alfa(lista,N);
+    printf("\nArchivos ordenados alfabeticamente:\n");
+    for (int i = 0; i < N; i++)
+    {
+        printf("Nombre: %s\n",lista[i].nombre);
+        printf("Tiempo:\n");
         imprime_tiempo(lista[i].ultima_mod);
     }
 
-    ordena_temporal(p_lista,2);
-    printf("Archivos ordenados por tiempos:\n");
-
-    for (int i = 0; i < 2; i++)
+    ordena_temporal(lista,N);
+    printf("\nArchivos ordenados cronologicamente:\n");
+    for (int i = 0; i < N; i++)
     {
-        printf("%s \n",lista[i].nombre);
+        printf("Nombre: %s\n",lista[i].nombre);
+        printf("Tiempo:\n");
         imprime_tiempo(lista[i].ultima_mod);
     }
-            
+    
+    for (size_t i = 0; i < N; i++)
+    {
+        free(lista[i].nombre);
+    }
+    
+    free(aux);
+    
     return EXIT_SUCCESS;
 }
 
-int compara_tiempos (tiempo *t1, tiempo *t2)
+void ingresa_tiempo (Tiempo *t)
 {
+    printf("\nAño: ");
+    scanf("%d",&t->anio);
+    printf("\nMes: ");
+    scanf("%d",&t->mes);
+    printf("\nDía: ");
+    scanf("%d",&t->dia);
+    printf("\nHora: ");
+    scanf("%d",&t->hora);
+    printf("\nMinuto: ");
+    scanf("%d",&t->minuto);
+    printf("\nSegundo: ");
+    scanf("%d",&t->segundo);
+}
 
+int compara_tiempos (Tiempo *t1, Tiempo *t2)
+{   
     if(t1->anio < t2->anio)
         return 1;
     if(t1->anio > t2->anio)
@@ -110,67 +134,47 @@ int compara_tiempos (tiempo *t1, tiempo *t2)
         return 1;
     if(t1->segundo > t2->segundo)
         return -1;
-
-    return 0;
+    else
+        return 0;
 }
 
-void lee_tiempos(tiempo *t)
+void imprime_tiempo (Tiempo t)
 {
-    printf("Año: ");
-    scanf("%d",&t->anio);
-    printf("Mes: ");
-    scanf("%d",&t->mes);
-    printf("Día: ");
-    scanf("%d",&t->dia);
-    printf("Hora: ");
-    scanf("%d",&t->hora);
-    printf("Minuto: ");
-    scanf("%d",&t->minuto);
-    printf("Segundo: ");
-    scanf("%d",&t->segundo);
+    printf("\n %d/%d/%d  %d:%d:%d \n",t.dia,t.mes,t.anio,t.hora,t.minuto,t.segundo);
 }
 
-
-void imprime_tiempo(tiempo t)
-{
-    printf("\n%d/%d/%d  %d:%d:%d\n",t.dia,t.mes,t.anio,t.hora,
-            t.minuto,t.segundo);
-}
-
-void ordena_alfa( archivo * lista, int n)
+void ordena_alfa( Archivo *lista, int n)
 {
     int i,j;
-
-    for ( i = 0; i < n; i++)
+    Archivo aux;
+    for (i = 0; i < n; i++)
     {
-        for ( j = i + 1; j < n; j++)
+        for (j = i+1; j < n; j++)
         {
-            if (strcmp(lista[i].nombre,lista[j].nombre) > 0)
+            if(strcmp(lista[i].nombre,lista[j].nombre) > 0)
             {
-                archivo aux = lista[i];
+                aux = lista[i];
                 lista[i] = lista[j];
                 lista[j] = aux;
-            }    
-        }    
-    }
-    
-}
-
-void ordena_temporal(archivo *lista, int n )
-{   
-    int i,j;
-
-    for ( i = 0; i < n; i++)
-    {
-        for ( j = i+1; j < n; j++)
-        {
-            if (compara_tiempos(&lista[i].ultima_mod,&lista[j].ultima_mod) == -1)
-            {
-                archivo aux = lista[i];
-                lista[i] = lista[j];
-                lista[j] = aux;
-            }  
+            }
         }
     }
-    
+}
+
+void ordena_temporal(Archivo *lista, int n)
+{
+    int i,j;
+    Archivo aux;
+    for (i = 0; i < n; i++)
+    {
+        for (j = i+1; j < n; j++)
+        {
+            if(compara_tiempos(&lista[i].ultima_mod,&lista[j].ultima_mod) == -1)
+            {
+                aux = lista[i];
+                lista[i] = lista[j];
+                lista[j] = aux;
+            }
+        }
+    }
 }

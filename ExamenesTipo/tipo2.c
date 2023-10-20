@@ -2,48 +2,56 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct
+typedef struct 
 {
-    char IP[16];    
-    char mascara[16];
+    char *ip;
+    char *mask;
+}red;
 
-}internet;
-
-char* obtenernumeroRed (internet *info);
+char * obtenerNumRed(red *);
 
 int main()
 {
-    internet i1;
+    red *e1 = malloc(sizeof(red));
+    e1->ip = malloc(sizeof(char) * 16); // 16 porque 15 caracteres y el caracter nulo;
+    e1->mask = malloc(sizeof(char) * 14);
+    char *numeroRed;
 
-    strcpy(i1.IP,"192.168.146.222");
-    strcpy(i1.mascara,"255.255.255.0");    
+    strcpy(e1->ip,"192.168.146.222");
+    strcpy(e1->mask, "255.255.255.0");
 
-    char* numeroRed = obtenernumeroRed(&i1); 
+    puts(e1->ip);
+    puts(e1->mask);
 
-    printf("\nIP: %s\n",i1.IP);
-    printf("Mascara: %s\n",i1.mascara);
+    numeroRed = obtenerNumRed(e1);
 
-    printf("\nNumero de red: %s\n",numeroRed);
+    puts(numeroRed);
 
     free(numeroRed);
+    free(e1->ip);
+    free(e1->mask);
+    free(e1);
+
     return EXIT_SUCCESS;
 }
 
-char* obtenernumeroRed(internet *info)
+char * obtenerNumRed(red *e)
 {
-    char*numeroRed = malloc (16 * sizeof(char));
+    char *numeroRed = malloc(sizeof(char) * 16);
 
-    strcpy(numeroRed,info->IP);
-
-    int i;
-
-    for ( i = 12; i < 16; i++)
+    int cont_puntos = 0;
+    int i = 0;
+    while(e->ip[i] != '\0' && cont_puntos < 3)
     {
-        strcpy(&numeroRed[i],"0");
+        if(e->ip[i] == '.')
+        {
+            cont_puntos++;
+        }
+        numeroRed[i] = e->ip[i];
+        i++;
     }
+    numeroRed[i] = '0';
+    numeroRed[++i] = '\0';
 
-    numeroRed[15] = '\0';
-    
-    return numeroRed;
-
+    return numeroRed; 
 }
