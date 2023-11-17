@@ -1,6 +1,6 @@
 /*
 Lectura de un archivo
-fseek() permite leer un archivo hasta un punto espec ́ıfico. Su formato es
+fseek() permite leer un archivo hasta un punto especıfico. Su formato es
 simple:
 fseek(puntero a archivo, numero entero long, origen);
 */

@@ -2,56 +2,55 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct 
+typedef struct
 {
     char *ip;
     char *mask;
-}red;
 
-char * obtenerNumRed(red *);
+}redes;
+
+char * obtenerNumRed(redes *);
 
 int main()
 {
-    red *e1 = malloc(sizeof(red));
-    e1->ip = malloc(sizeof(char) * 16); // 16 porque 15 caracteres y el caracter nulo;
-    e1->mask = malloc(sizeof(char) * 14);
-    char *numeroRed;
+    redes *red = malloc(sizeof(redes));
+    red->ip = malloc(sizeof(char) * 16);
+    red->mask = malloc(sizeof(char) * 14);
 
-    strcpy(e1->ip,"192.168.146.222");
-    strcpy(e1->mask, "255.255.255.0");
+    strcpy(red->ip,"192.168.146.222");
+    strcpy(red->mask,"255.255.255.0");
 
-    puts(e1->ip);
-    puts(e1->mask);
+    char *numero_de_red = obtenerNumRed(red);
 
-    numeroRed = obtenerNumRed(e1);
-
-    puts(numeroRed);
-
-    free(numeroRed);
-    free(e1->ip);
-    free(e1->mask);
-    free(e1);
+    printf("\nIP: %s  -  Mask: %s  \n",red->ip,red->mask);
+    printf("Numero de red: %s \n",numero_de_red);
+    free(red->ip);
+    free(red->mask);
+    free(numero_de_red);
+    free(red);
 
     return EXIT_SUCCESS;
 }
 
-char * obtenerNumRed(red *e)
+char * obtenerNumRed(redes *red)
 {
-    char *numeroRed = malloc(sizeof(char) * 16);
-
-    int cont_puntos = 0;
+    char *num_red = malloc(sizeof(char) * 14);
     int i = 0;
-    while(e->ip[i] != '\0' && cont_puntos < 3)
+    
+    while(red->mask[i] != '\0')
     {
-        if(e->ip[i] == '.')
+        if(red->mask[i] == '0')
         {
-            cont_puntos++;
+            num_red[i] = red->mask[i];
         }
-        numeroRed[i] = e->ip[i];
+        else
+        {
+            num_red[i] = red->ip[i];
+        }
         i++;
     }
-    numeroRed[i] = '0';
-    numeroRed[++i] = '\0';
+    
+    num_red[i] = '\0';
 
-    return numeroRed; 
+    return num_red;
 }

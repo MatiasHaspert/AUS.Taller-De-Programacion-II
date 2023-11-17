@@ -21,15 +21,17 @@ int main()
         inserta(&raiz,nro);
     }
 
+    print_arbol(raiz,0);
     printf("\nRecorrido inorder:\n");
     inorder(raiz);
     printf("\nRecorrido postrder:\n");
     postorder(raiz);
     printf("\nRecorrido preorder:\n");
     preorder(raiz);
-    
+
     printf("\nIngresa un numero y te diré si se encuentra en el arbol: ");
     scanf("%d",&nro);
+
 
     if(es_miembro(raiz,nro) == 1) printf("El elemento %d se encuentra en el arbol!\n",nro);
     else printf("El elemento %d no se encuentra en el arbol!\n",nro);
@@ -38,33 +40,56 @@ int main()
     scanf("%d",&nro);
 
     suprime(&raiz,nro);
-    inorder(raiz);
 
+    print_arbol(raiz,0);
 
+    printf("\nIngresa un numero que desees eliminar del arbol: ");
+    scanf("%d",&nro);
+
+    suprime(&raiz,nro);
+
+    print_arbol(raiz,0);
 
     return EXIT_SUCCESS;
 }
 
+arbol * nuevonodo(int valor)
+{
+    arbol *nuevo = malloc(sizeof(arbol));
+    if(nuevo == NULL)
+        return NULL;
+    
+    nuevo->dato = valor;
+    nuevo->h_der = NULL;
+    nuevo->h_izq = NULL;
+
+    return nuevo;
+}
+
+
 void inserta(arbol **raiz,int x)
 {
-    if(*raiz == NULL) // si el arbol está vacio
+    if(*raiz == NULL)
     {
-        *raiz = malloc (sizeof(arbol));
-
-        (*raiz)->dato = x;
-        (*raiz)->h_der = NULL;
-        (*raiz)->h_izq = NULL;
+        *raiz = nuevonodo(x);
     }
-    else //si ya hay elementos en el arbol
-    {
-        if(x < (*raiz)->dato) inserta(&(*raiz)->h_izq,x);
-        else inserta(&(*raiz)->h_der,x);
+    else 
+    {    
+        if(x < (*raiz)->dato)
+        {
+            inserta(&(*raiz)->h_izq, x);
+        }
+        else// x > (*raiz)->dato
+        {
+            inserta(&(*raiz)->h_der, x);
+        }
     }
 }
 
 int es_miembro (arbol *raiz,int x)
 {
-    if(raiz == NULL) return -1;
+    if(raiz == NULL) 
+        return 0;
 
     if(raiz->dato == x)
     {
@@ -90,8 +115,11 @@ int suprime_menor(arbol **raiz)
     }
     else //aun no se alcanzo el nodo mas pequeño
     {
-        return suprime_menor(&(*raiz)->h_izq);
+        valor_ref = suprime_menor(&(*raiz)->h_izq);
     }
+
+    return valor_ref;
+    
 }
 
 void suprime (arbol **raiz,int x)
@@ -106,7 +134,7 @@ void suprime (arbol **raiz,int x)
         {
             suprime(&(*raiz)->h_der,x);
         }
-        else if((*raiz)->h_der == NULL && (*raiz)->h_der == NULL)
+        else if((*raiz)->h_izq == NULL && (*raiz)->h_der == NULL)
         {
             arbol *temp = *raiz;
             *raiz = NULL;
@@ -114,21 +142,17 @@ void suprime (arbol **raiz,int x)
         }
         else if((*raiz)->h_izq == NULL) // el hijo derecho contiene el valor a eliminar
         {
-            arbol *temp = *raiz;
             *raiz = (*raiz)->h_der;
-            free(temp);
         }
         else if ((*raiz)->h_der == NULL)
         {
-            arbol *temp = *raiz;
-            *raiz = (*raiz)->h_izq;
-            free(temp);
+            *raiz = (*raiz)->h_izq;  
         }
         else //ambos hijos estas presentes
         {
             (*raiz)->dato = suprime_menor(&(*raiz)->h_der);
         }
-    }    
+    }       
 }
 
 // Función para mostrar el árbol en orden (izquierda - raíz - derecha)
@@ -161,3 +185,29 @@ void postorder(arbol *raiz)
         printf("%d ",raiz->dato);
     }
 }
+
+// Función para imprimir un árbol binario
+void print_arbol(arbol* raiz, int nivel) 
+{
+    if (raiz == NULL) 
+    {
+        return;
+    }
+
+    // Incrementar el nivel para obtener un formato visual
+    nivel += 5;
+
+    // Imprimir el nodo derecho
+    print_arbol(raiz->h_der, nivel);
+
+    // Imprimir el nodo actual
+    printf("\n");
+    for (int i = 5; i < nivel; i++) {
+        printf(" ");
+    }
+    printf("%d\n", raiz->dato);
+
+    // Imprimir el nodo izquierdo
+    print_arbol(raiz->h_izq, nivel);
+}
+

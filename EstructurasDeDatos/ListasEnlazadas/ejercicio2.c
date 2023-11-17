@@ -231,5 +231,5 @@ int esCompuesto (int nro)
     }
 
     if(cont > 2) return 1;
-    else 0;
+    else return 0;
 }
