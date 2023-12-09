@@ -1,51 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef int tipo_nombre;
-typedef int tipo_elemento;
-typedef int vertice;
-
-#define VERTICES 5
-
-typedef struct _ARISTA
-{ 
-    vertice u;
-    vertice v;
-    int costo;
-}arista;
-
-typedef struct _RAMA 
-{
-    struct _ARISTA a;
-    struct _RAMA *sig;
-}rama;
-
-typedef struct _ENCABEZADO 
-{
-    int cuenta; 
-    int primer_elemento;
-}encabezado;
-
-typedef struct _NOMBRE
-{
-    tipo_nombre nombre_conjunto;
-    int siguiente_elemento;
-}nombre;
-
-typedef struct _CONJUNTO_CE 
-{
-    nombre nombres[VERTICES];
-    encabezado encabezamientos_conjunto[VERTICES];
-}conjunto_CE;
-
-void inicial(tipo_nombre, tipo_elemento, conjunto_CE *);
-void combina(tipo_nombre, tipo_nombre, conjunto_CE *);
-tipo_nombre encuentra(int, conjunto_CE *);
-void kruskal(rama *);
-void inserta(int, int, int, rama **);
-arista *sacar_min(rama **);
-void lista (rama *);
-void free_arbol(rama *);
+#include "Kruskal.h"
 
 int main()
 {
@@ -139,7 +92,7 @@ void inicial(tipo_nombre a, tipo_elemento x, conjunto_CE *ce)
     ce->nombres[x].nombre_conjunto = a;
     ce->nombres[x].siguiente_elemento = 0; //puntero nulo al siguiente elemento
     ce->encabezamientos_conjunto[a].cuenta = 1;
-    ce->encabezamientos_conjunto[a].primer_elemento = x;
+    ce->encabezamientos_conjunto[a].primer_elemento = x;   
 }
 
 //COMBINA LOS CONJUNTOS A Y B
@@ -228,7 +181,7 @@ void kruskal(rama *arbol)
             inserta(arista_menor->u, arista_menor->v, arista_menor->costo, &arbol_minimo); //agrego la arista al arbol abarcador de menor costo
             free(arista_menor);
         }
-        else
+        else //se descarta la arista si conecta dos vertices contenidos en el mismo componente
         {
             if(arista_menor)
                 free(arista_menor);
